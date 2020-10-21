@@ -1,0 +1,62 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+body, html{
+	height:100%;
+}
+
+body{
+    background-image: url(../img/background-football.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+nav{
+    background-color: #AC3931;
+}
+
+nav li{
+    padding: 5px;
+    font-size: 20px;
+}
+
+nav a{
+    color: #D9E76C;
+}
+
+.navbar-brand{
+    font-size: 25px;
+}
+
+#contentIndex{
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#formIndex{
+    min-width: 400px;
+    margin: auto;
+    background-color: #AC3931;
+    opacity: 0.8;
+    color: #ffffff;
+    border: 5px solid #ffffff;
+}
+
+#formIndex button{
+    margin: auto;
+    margin-top: 20px;
+}
+
+.container{
+    margin-top: 100px;
+    color: #D9E76C;
+}
+.row{
+    background-color: #537D8D;
+    opacity: 0.9;
+    padding: 50px;
+    border-radius: 10px 10px 10px 10px;
+}
