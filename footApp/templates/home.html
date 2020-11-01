@@ -7,13 +7,13 @@
         <aside class="col-md-3">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Match en direct</h5>
-                    <div class="card-text">
-                        <div class="result">
-                            <div class="localTeam">OL</div>
-                            <div class="result">0-0</div>
-                            <div class="visitorTeam">PSG</div>
-                        </div>
+                    <h5 class="card-title">Match du jour</h5>
+                    <div class="result">
+                        {% for event in match %}
+                        <a>-{{ event.event_name }}</a>
+                        </br>
+                        </br>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
