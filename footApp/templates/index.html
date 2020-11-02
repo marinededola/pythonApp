@@ -1,3 +1,5 @@
+{% from "_render_field.html" import render_field %}
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -11,24 +13,12 @@
         <div class="card" id="formIndex">
             <div class="card-body">
                 <form action="{{ url_for('home') }}" method="POST">
-                    {{ form.csrf_token }}
+                    {{ loginForm.csrf_token }}
                     <div class="form-group">
-                        {{ form.pseudo.label }}
-                        {{ form.pseudo }}
-                        <ul>
-                            {% for error in form.pseudo.errors %}
-                                <li style="color: red">{{ error }}</li>
-                            {% endfor %}
-                        </ul>
+                        {{ render_field(loginForm.pseudo) }}
                     </div>
                     <div class="form-group">
-                        {{ form.password.label }}
-                        {{ form.password }}
-                        <ul>
-                            {% for error in form.password.errors %}
-                                <li style="color: red">{{ error }}</li>
-                            {% endfor %}
-                        </ul>
+                        {{ render_field(loginForm.password) }}
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary text-center">Connexion</button>
@@ -37,6 +27,7 @@
                 <div class="text-center">
                     <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#registerModal">S'inscrire</button>
                 </div>
+                {{ error }}
                 <!-- Modal -->
                 <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModal" aria-hidden="true">
                     <div class="modal-dialog">
@@ -49,14 +40,15 @@
                             </div>
                             <div class="modal-body">
                                 <form action="{{url_for('register')}}" method="POST">
-                                    {{ form.csrf_token }}
+                                    {{ registerForm.csrf_token }}
                                     <div class="form-group">
-                                        {{ form.pseudo.label }}
-                                        {{ form.pseudo }}
+                                        {{ render_field(registerForm.pseudo) }}
                                     </div>
                                     <div class="form-group">
-                                        {{ form.password.label }}
-                                        {{ form.password }}
+                                        {{ render_field(registerForm.password) }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ render_field(registerForm.confirm_password) }}
                                     </div>
                                     <button type="submit" class="btn btn-primary">Inscription</button>
                                 </form>
