@@ -6,8 +6,12 @@ from flask import Flask, render_template
 #Pick the current date
 date = datetime.datetime.now()
 #Adjust the date's format to the API
+if len(str(date.day)) < 2:
+    dateDay = "0" + str(date.day)
+else:
     dateDay= str(date.day)
 jourUrl = str(date.year) + "-" + str(date.month) + "-" + dateDay
+
 
 #Initialize the football API's URL
 url = "https://stroccoli-futbol-science-v1.p.rapidapi.com/s1/calendar/" + jourUrl + "/" + jourUrl
@@ -17,6 +21,7 @@ headers = {
 'x-rapidapi-host': "stroccoli-futbol-science-v1.p.rapidapi.com",
 'x-rapidapi-key': "3c3e50e2d3msh35e5bd40a835711p1680e1jsn6f0ff3f70e35"
 }
+
 
 #Connexion to the database
 def get_db_connection():
