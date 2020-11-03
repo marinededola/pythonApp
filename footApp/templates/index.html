@@ -15,7 +15,7 @@
                 <form action="{{ url_for('home') }}" method="POST">
                     {{ loginForm.csrf_token }}
                     <div class="form-group">
-                        {{ render_field(loginForm.pseudo) }}
+                        {{ render_field(loginForm.username) }}
                     </div>
                     <div class="form-group">
                         {{ render_field(loginForm.password) }}
@@ -27,7 +27,7 @@
                 <div class="text-center">
                     <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#registerModal">S'inscrire</button>
                 </div>
-                {{ error }}
+                {{ msg }}
                 <!-- Modal -->
                 <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModal" aria-hidden="true">
                     <div class="modal-dialog">
@@ -42,7 +42,7 @@
                                 <form action="{{url_for('register')}}" method="POST">
                                     {{ registerForm.csrf_token }}
                                     <div class="form-group">
-                                        {{ render_field(registerForm.pseudo) }}
+                                        {{ render_field(registerForm.username) }}
                                     </div>
                                     <div class="form-group">
                                         {{ render_field(registerForm.password) }}
