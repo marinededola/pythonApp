@@ -2,12 +2,15 @@ import sqlite3
 import requests
 import datetime
 import itertools
-from footApp import app
 from config import Config
-from flask import Flask, render_template, request, flash, redirect
+from footApp import app, db
 from footApp.forms import LoginForm, RegisterForm
+from footApp.models import User
+from flask import Flask, render_template, request, flash, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_login import current_user, login_user, logout_user, login_required
+from werkzeug.urls import url_parse
 from operator import itemgetter
 
 #Pick the current date
@@ -47,10 +50,35 @@ def get_db_connection():
 def index():
     loginForm = LoginForm()
     registerForm = RegisterForm()
-
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     if loginForm.validate_on_submit():
-        flash('Bonjour user{}'.format(loginForm.username.data))
-        return redirect('/home')
+        user = User.query.filter_by(username=loginForm.username.data).first()
+        if user is None or not user.check_password(loginForm.password.data):
+            flash('Invalid username or password')
+            return redirect(url_for('index'))
+        return redirect(url_for('home'))
+    return render_template('index.html', loginForm=loginForm, registerForm=registerForm)
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+    
+@app.route('/register', methods=['get', 'post'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    registerForm = RegisterForm()
+    loginForm = LoginForm()
+    if registerForm.validate_on_submit():
+        user = User(username=registerForm.username.data)
+        user.set_password(registerForm.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Congratulations, you are now a registered user!')
+        return redirect(url_for('index'))
     return render_template('index.html', loginForm=loginForm, registerForm=registerForm)
 
 @app.route('/home', methods=['get', 'post'])
@@ -61,8 +89,7 @@ def home():
     conn.close()
     #Football API request
     match = requests.request("GET", url, headers=headers).json()
-    user = {'username': 'Test'}
-    return render_template('home.html', teams=teams, favoris=favoris, match=match, user=user)
+    return render_template('home.html', teams=teams, favoris=favoris, match=match)
 
 @app.route('/team')
 def team():
@@ -78,31 +105,6 @@ def team():
 def live():
     live = requests.request("GET", url2, headers=headers2).json()
     return render_template('live.html', live=live)
-
-@app.route('/register', methods=['get', 'post'])
-def register():
-    loginForm = LoginForm()
-    registerForm = RegisterForm()
-    conn = get_db_connection()
-    if request.method == 'POST':
-        try:
-            if registerForm.validate_on_submit():
-                username_field = request.form['username']
-                password_field = request.form['password']
-                msg = "Inscription réussie !"
-                conn.execute('INSERT INTO user (username, password) VALUES (?, ?)',
-                (username_field, password_field))
-                conn.commit()
-                conn.close()
-                return render_template('index.html', loginForm=loginForm, registerForm=registerForm, msg=msg)
-            else:
-                msg = "Une erreur est survenue !"
-                return render_template('index.html', loginForm=loginForm, registerForm=registerForm, msg=msg)
-        except:
-            msg = "Identifiant déja utilisé !"
-            return render_template('index.html', loginForm=loginForm, registerForm=registerForm, msg=msg)
-    return render_template('index.html', loginForm=loginForm, registerForm=registerForm)
-    
 
 app.config.from_object('config')
 
