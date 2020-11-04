@@ -2,6 +2,8 @@ import sqlite3
 import requests
 import datetime
 from flask import Flask, render_template
+import itertools
+from operator import itemgetter
 
 #Pick the current date
 date = datetime.datetime.now()
@@ -21,6 +23,15 @@ headers = {
 'x-rapidapi-host': "stroccoli-futbol-science-v1.p.rapidapi.com",
 'x-rapidapi-key': "3c3e50e2d3msh35e5bd40a835711p1680e1jsn6f0ff3f70e35"
 }
+
+url2 = "https://rapidapi.p.rapidapi.com/s2/live"
+
+headers2 = {
+'x-rapidapi-key': "3c3e50e2d3msh35e5bd40a835711p1680e1jsn6f0ff3f70e35",
+'x-rapidapi-host': "stroccoli-futbol-science-v1.p.rapidapi.com"
+}
+
+
 
 
 #Connexion to the database
@@ -59,6 +70,12 @@ def team():
     #Football API request
     match = requests.request("GET", url, headers=headers).json()
     return render_template('team.html', teams=teams, favoris=favoris, match=match)
+
+@app.route('/live')
+def live():
+
+    live = requests.request("GET", url2, headers=headers2).json()
+    return render_template('live.html', live=live)
 
 app.config.from_object('config')
 

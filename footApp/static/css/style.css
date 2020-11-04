@@ -59,6 +59,7 @@ nav a{
     opacity: 0.9;
     padding: 20px;
     border-radius: 10px 10px 10px 10px;
+    height: 70vh;
 }
 
 .result{
@@ -67,4 +68,22 @@ nav a{
 
     overflow-y: scroll;
     font-size: 15px;;
+}
+
+.resultLive{
+    height: 50vh;
+    overflow-x: hidden;
+
+    overflow-y: scroll;
+    font-size: 15px;;
+}
+
+
+#liveContainer{
+    height: 100%;
+}
+
+#liveContainer a:hover{
+    text-decoration: none;
+    cursor: default;
 }
