@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <aside class="col-md-12">
+            <div class="card" id="liveContainer">
+                <div class="card-body" >
+                    <h5 class="card-title">Résultats en direct</h5>
+                    <div class="resultLive">
+                        {% for event in live %}
+                        <div>
+                            <a class="col-md-6">-{{ event.event_name }}</a><a class="col-md-6">{{ event.result[0] }}-{{ event.result[1] }}</a>
+                        </div>
+                        </br>
+                        </br>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+</div>
+{% endblock %}
