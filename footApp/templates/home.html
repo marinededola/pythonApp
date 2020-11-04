@@ -4,6 +4,14 @@
 <!--Home content-->
 <div class="container">
     <h2>Bonjour {{ user.username }}</h2>
+    <hr>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
     <div class="row">
         <aside class="col-md-3">
             <div class="card">
