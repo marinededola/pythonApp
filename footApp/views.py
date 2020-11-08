@@ -1,8 +1,16 @@
 import sqlite3
 import requests
 import datetime
-from flask import Flask, render_template
 import itertools
+from config import Config
+from footApp import app, db
+from footApp.forms import LoginForm, RegisterForm
+from footApp.models import User
+from flask import Flask, render_template, request, flash, redirect, url_for
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from flask_login import current_user, login_user, logout_user, login_required
+from werkzeug.urls import url_parse
 from operator import itemgetter
 
 #Pick the current date
@@ -13,7 +21,6 @@ if len(str(date.day)) < 2:
 else:
     dateDay= str(date.day)
 jourUrl = str(date.year) + "-" + str(date.month) + "-" + dateDay
-
 
 #Initialize the football API's URL
 url = "https://stroccoli-futbol-science-v1.p.rapidapi.com/s1/calendar/" + jourUrl + "/" + jourUrl
@@ -31,27 +38,50 @@ headers2 = {
 'x-rapidapi-host': "stroccoli-futbol-science-v1.p.rapidapi.com"
 }
 
-
-
-
 #Connexion to the database
 def get_db_connection():
     conn = sqlite3.connect('footApp/database.db')
     conn.row_factory = sqlite3.Row
     return conn
 
-app = Flask(__name__)
 
-#Initialization of application routes
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
 def index():
-    conn = get_db_connection()
-    users = conn.execute('SELECT * FROM user').fetchall()
-    favoris = conn.execute('SELECT * FROM favoris').fetchall()
-    conn.close()
-    return render_template('index.html', users=users, favoris=favoris)
+    loginForm = LoginForm()
+    registerForm = RegisterForm()
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    if loginForm.validate_on_submit():
+        user = User.query.filter_by(username=loginForm.username.data).first()
+        if user is None or not user.check_password(loginForm.password.data):
+            flash('Invalid username or password')
+            return redirect(url_for('index'))
+        return redirect(url_for('home'))
+    return render_template('index.html', loginForm=loginForm, registerForm=registerForm)
 
-@app.route('/home')
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+    
+@app.route('/register', methods=['get', 'post'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    registerForm = RegisterForm()
+    loginForm = LoginForm()
+    if registerForm.validate_on_submit():
+        user = User(username=registerForm.username.data)
+        user.set_password(registerForm.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Congratulations, you are now a registered user!')
+        return redirect(url_for('index'))
+    return render_template('index.html', loginForm=loginForm, registerForm=registerForm)
+
+@app.route('/home', methods=['get', 'post'])
 def home():
     conn = get_db_connection()
     teams = conn.execute('SELECT * FROM team').fetchall()
@@ -73,7 +103,6 @@ def team():
 
 @app.route('/live')
 def live():
-
     live = requests.request("GET", url2, headers=headers2).json()
     return render_template('live.html', live=live)
 

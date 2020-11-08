@@ -1,3 +1,5 @@
+{% from "_render_field.html" import render_field %}
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -5,30 +7,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FootApp</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link rel="stylesheet" href="../static/css/style.css">
 </head>
 <body>
     <div class="row" id="contentIndex">
         <div class="card" id="formIndex">
             <div class="card-body">
-                <form action="#" method="POST">
+                <form action="" method="POST" novalidate>
+                    {{ loginForm.csrf_token }}
                     <div class="form-group">
-                        <label for="pseudoConnection">Nom d'utilisateur</label>
-                        <input type="email" class="form-control" id="pseudoConnection" aria-describedby="pseudoConnectionHelp">
+                        {{ render_field(loginForm.username) }}
                     </div>
                     <div class="form-group">
-                        <label for="passwordConnection">Mot de passe</label>
-                        <input type="password" class="form-control" id="passwordConnection">
+                        {{ render_field(loginForm.password) }}
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary text-center">Connexion</button>
                     </div>
                 </form>
                 <div class="text-center">
-                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#subscribeModal">S'inscrire</button>
+                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#registerModal">S'inscrire</button>
                 </div>
+                
                 <!-- Modal -->
-                <div class="modal fade" id="subscribeModal" tabindex="-1" aria-labelledby="subscribeModal" aria-hidden="true">
+                <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModal" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -38,32 +39,16 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             </div>
                             <div class="modal-body">
-                                <form action="#" method="POST">
+                                <form action="{{url_for('register')}}" method="POST">
+                                    {{ registerForm.csrf_token }}
                                     <div class="form-group">
-                                        <label for="nameSubsribe">Votre nom</label>
-                                        <input type="text" class="form-control" id="nameSubsribe" aria-describedby="nameSubsribeHelp">
+                                        {{ render_field(registerForm.username) }}
                                     </div>
                                     <div class="form-group">
-                                        <label for="firstNameSubsribe">Votre prénom</label>
-                                        <input type="text" class="form-control" id="firstNameSubsribe" aria-describedby="firstNameSubsribeHelp">
+                                        {{ render_field(registerForm.password) }}
                                     </div>
                                     <div class="form-group">
-                                        <label for="emailSubscribe">Votre email</label>
-                                        <input type="email" class="form-control" id="emailSubscribe" aria-describedby="emailSubscribeHelp">
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="form-group">
-                                            <label for="emailSubscribeConfirmation">Confirmation de votre email</label>
-                                            <input type="email" class="form-control" id="emailSubscribeConfirmation" aria-describedby="emailSubscribeConfirmationHelp">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="passwordSubscribe">Mot de passe</label>
-                                        <input type="password" class="form-control" id="passwordSubscribe">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="passwordSubscribeConfirmation">Confirmation de votre mot de passe</label>
-                                        <input type="password" class="form-control" id="passwordSubscribeConfirmation">
+                                        {{ render_field(registerForm.confirm_password) }}
                                     </div>
                                     <button type="submit" class="btn btn-primary">Inscription</button>
                                 </form>
