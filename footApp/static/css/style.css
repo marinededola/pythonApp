@@ -47,7 +47,19 @@ nav a{
 
 #formIndex button{
     margin: auto;
-    margin-top: 20px;
+    margin-top: 10px;
+}
+
+.scrollable-menu {
+    height: 250px;
+    overflow-x: hidden;
+
+    overflow-y: scroll;
+}
+
+.items{
+    font-size: 16px;
+    color: darkblue;
 }
 
 .container{
@@ -62,12 +74,21 @@ nav a{
     height: 70vh;
 }
 
+.resultTour{
+    height: 17vh;
+    overflow-x: hidden;
+
+    overflow-y: scroll;
+    font-size: 15px;
+
+}
+
 .result{
     height: 20vh;
     overflow-x: hidden;
 
     overflow-y: scroll;
-    font-size: 15px;;
+    font-size: 15px;
 }
 
 .resultLive{
@@ -75,7 +96,11 @@ nav a{
     overflow-x: hidden;
 
     overflow-y: scroll;
-    font-size: 15px;;
+    font-size: 15px;
+}
+
+#favoris{
+    font-size: 10px;
 }
 
 

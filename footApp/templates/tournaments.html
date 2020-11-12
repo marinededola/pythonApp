@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!--Home content-->
+<div class="container">
+
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div id="favoriteTeam">
+                <h3>Tournois Favoris</h3>
+                <img src="" alt="team-logo">
+                <div class="accordion resultTour" id="accordionFavoriteTeam">
+                    <div class="card">
+                        <div class="card-header" id="headingFavoriteTwo">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseFavoriteTwo" aria-expanded="false" aria-controls="collapseHFavoriteTwo">
+                                Tournoi favoris
+                            </button>
+                        </h2>
+                        </div>
+                        <div id="collapseFavoriteTwo" class="collapse" aria-labelledby="headingFavoriteTwo" data-parent="#accordionFavoriteTeam">
+                            <div class="card-body">
+                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="followTeam">
+                <h3>Tous les tournois</h3>
+                <img src="" alt="team-logo">
+                <div class="accordion resultTour" id="accordionFollowTeam">
+                    {% for tournament in tournaments %}
+                    <div class="card">
+                        <div class="card-header" id="headingFollowTwo">
+                        <h2 class="mb-0">
+                            <a href="/tournament/?name={{tournament.league}}" class="btn btn-link btn-block text-left collapsed" role="button" >
+                                {{ tournament.league }}
+                            </a>
+                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseFollowTwo" aria-expanded="false" aria-controls="collapseFollowTwo" id="favoris">Ajouter au favoris</button>
+                        </h2>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>
+{% endblock %}

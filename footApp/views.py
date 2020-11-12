@@ -1,6 +1,7 @@
 import sqlite3
 import requests
 import datetime
+from datetime import datetime, timedelta
 import itertools
 from config import Config
 from footApp import app, db
@@ -14,13 +15,21 @@ from werkzeug.urls import url_parse
 from operator import itemgetter
 
 #Pick the current date
-date = datetime.datetime.now()
+date = datetime.now()
+
+date2 = (datetime.now() -  timedelta(6))
 #Adjust the date's format to the API
 if len(str(date.day)) < 2:
     dateDay = "0" + str(date.day)
 else:
     dateDay= str(date.day)
 jourUrl = str(date.year) + "-" + str(date.month) + "-" + dateDay
+
+if len(str(date2.day)) < 2:
+    dateDay2 = "0" + str(date2.day)
+else:
+    dateDay2= str(date2.day)
+jourUrl2 = str(date2.year) + "-" + str(date2.month) + "-" + dateDay2
 
 #Initialize the football API's URL
 url = "https://stroccoli-futbol-science-v1.p.rapidapi.com/s1/calendar/" + jourUrl + "/" + jourUrl
@@ -33,10 +42,10 @@ headers = {
 
 url2 = "https://rapidapi.p.rapidapi.com/s2/live"
 
-headers2 = {
-'x-rapidapi-key': "3c3e50e2d3msh35e5bd40a835711p1680e1jsn6f0ff3f70e35",
-'x-rapidapi-host': "stroccoli-futbol-science-v1.p.rapidapi.com"
-}
+url3 = "https://stroccoli-futbol-science-v1.p.rapidapi.com/s1/tournaments"
+
+url4 = "https://stroccoli-futbol-science-v1.p.rapidapi.com/s1/results/" + jourUrl2 + "/" + jourUrl
+
 
 #Connexion to the database
 def get_db_connection():
@@ -46,6 +55,10 @@ def get_db_connection():
 
 
 @app.route('/', methods=['GET', 'POST'])
+def search():
+    tournaments = requests.request("GET", url3, headers=headers).json()
+    return tournaments
+
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     loginForm = LoginForm()
@@ -101,9 +114,22 @@ def team():
     match = requests.request("GET", url, headers=headers).json()
     return render_template('team.html', teams=teams, favoris=favoris, match=match)
 
+@app.route('/tournaments')
+def tournaments():
+    tournaments = requests.request("GET", url3, headers=headers).json()
+    #Football API request
+    return render_template('tournaments.html', tournaments=tournaments)
+
+@app.route('/tournament/')
+def tournament():
+    tournament = request.args.get('name')
+    querystring = {"tournament_name":tournament}
+    tournament_result = requests.request("GET", url4, headers=headers, params=querystring).json()
+    return render_template('tournament.html', tournament=tournament_result, tournament_name=tournament)
+
 @app.route('/live')
 def live():
-    live = requests.request("GET", url2, headers=headers2).json()
+    live = requests.request("GET", url2, headers=headers).json()
     return render_template('live.html', live=live)
 
 app.config.from_object('config')
