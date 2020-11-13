@@ -23,70 +23,14 @@
         </aside>
         <div class="col-md-8">
             <div id="favoriteTeam">
-                <h3>Equipe Favorite</h3>
-                <img src="" alt="team-logo">
-                <div class="accordion" id="accordionFavoriteTeam">
-                    <div class="card">
-                        <div class="card-header" id="headingFavoriteOne">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseFavoriteOne" aria-expanded="false" aria-controls="collapseFavoriteOne">
-                                Infos joueurs
-                            </button>
-                        </h2>
-                        </div>
-                        <div id="collapseFavoriteOne" class="collapse" aria-labelledby="headingFavoriteOne" data-parent="#accordionFavoriteTeam">
-                            <div class="card-body">
-                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header" id="headingFavoriteTwo">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseFavoriteTwo" aria-expanded="false" aria-controls="collapseHFavoriteTwo">
-                                Résultat
-                            </button>
-                        </h2>
-                        </div>
-                        <div id="collapseFavoriteTwo" class="collapse" aria-labelledby="headingFavoriteTwo" data-parent="#accordionFavoriteTeam">
-                            <div class="card-body">
-                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="followTeam">
-                <h3>Equipe(s) suivie(s)</h3>
-                <img src="" alt="team-logo">
-                <div class="accordion" id="accordionFollowTeam">
-                    <div class="card">
-                        <div class="card-header" id="headingFollowOne">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseFollowOne" aria-expanded="false" aria-controls="collapseFollowOne">
-                                Infos joueurs
-                            </button>
-                        </h2>
-                        </div>
-                        <div id="collapseFollowOne" class="collapse" aria-labelledby="headingFollowOne" data-parent="#accordionFollowTeam">
-                            <div class="card-body">
-                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header" id="headingFollowTwo">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseFollowTwo" aria-expanded="false" aria-controls="collapseFollowTwo">
-                                Résultat
-                            </button>
-                        </h2>
-                        </div>
-                        <div id="collapseFollowTwo" class="collapse" aria-labelledby="headingFollowTwo" data-parent="#accordionFollowTeam">
-                            <div class="card-body">
-                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                            </div>
-                        </div>
+                <h3>Tournois favoris</h3>
+                <div class="card">
+                    <div class="card-body">
+                        {% for favorite in favorites %}
+                            <a href="/tournament/?name={{ favorite.name }}">{{ favorite.name }} {{ current_user.id}} </a>
+                            <br>
+                            <br>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

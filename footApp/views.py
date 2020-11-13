@@ -6,7 +6,7 @@ import itertools
 from config import Config
 from footApp import app, db
 from footApp.forms import LoginForm, RegisterForm
-from footApp.models import User
+from footApp.models import User, Favoris
 from flask import Flask, render_template, request, flash, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -61,6 +61,8 @@ def search():
 
 @app.route('/index', methods=['GET', 'POST'])
 def index():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     loginForm = LoginForm()
     #check if form is valid
     if loginForm.validate_on_submit():
@@ -103,13 +105,10 @@ def register():
 def home():
     #Check if user is authenticated
     if current_user.is_authenticated:
-        conn = get_db_connection()
-        tournaments = conn.execute('SELECT * FROM tournaments').fetchall()
-        favoris = conn.execute('SELECT * FROM favoris').fetchall()
-        conn.close()
         #Football API request
         match = requests.request("GET", url, headers=headers).json()
-        return render_template('home.html', tournaments=tournaments, favoris=favoris, match=match)
+        favorites = Favoris.query.filter_by(user_id = current_user.id)
+        return render_template('home.html', match=match, favorites=favorites)
     else: 
         return redirect(url_for('index'))
 
@@ -126,6 +125,16 @@ def tournament():
     tournament_result = requests.request("GET", url4, headers=headers, params=querystring).json()
     return render_template('tournament.html', tournament=tournament_result, tournament_name=tournament)
 
+@app.route('/add_favorites')
+def add_favorites():
+    tournament_name = request.args.get('name')
+    favorite = Favoris(user_id=current_user.id, name=tournament_name)
+    #Add to database
+    db.session.add(favorite)
+    #Validate session
+    db.session.commit()
+    return redirect('home')
+
 #route for live
 @app.route('/live')
 def live():
@@ -136,6 +145,3 @@ app.config.from_object('config')
 
 if __name__ == "__main__":
     app.run()
-
-
-
