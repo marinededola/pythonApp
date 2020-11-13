@@ -53,7 +53,7 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
-
+#Route for index
 @app.route('/', methods=['GET', 'POST'])
 def search():
     tournaments = requests.request("GET", url3, headers=headers).json()
@@ -62,57 +62,56 @@ def search():
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     loginForm = LoginForm()
-    registerForm = RegisterForm()
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
+    #check if form is valid
     if loginForm.validate_on_submit():
+        #retrieve user data
         user = User.query.filter_by(username=loginForm.username.data).first()
+        #check if user is on database and check password
         if user is None or not user.check_password(loginForm.password.data):
             flash('Invalid username or password')
             return redirect(url_for('index'))
+        login_user(user)
         return redirect(url_for('home'))
-    return render_template('index.html', loginForm=loginForm, registerForm=registerForm)
+    return render_template('index.html', loginForm=loginForm)
 
+#route for deconnexion user 
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
 
-    
+#route for registration 
 @app.route('/register', methods=['get', 'post'])
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     registerForm = RegisterForm()
-    loginForm = LoginForm()
     if registerForm.validate_on_submit():
+        #create new object User with username and password generate by form
         user = User(username=registerForm.username.data)
         user.set_password(registerForm.password.data)
+        #Add to database
         db.session.add(user)
+        #Validate session
         db.session.commit()
-        flash('Congratulations, you are now a registered user!')
+        flash('Vous êtes bien inscrit !')
         return redirect(url_for('index'))
-    return render_template('index.html', loginForm=loginForm, registerForm=registerForm)
+    return render_template('register.html', registerForm=registerForm)
 
+#route for user homepage
 @app.route('/home', methods=['get', 'post'])
 def home():
-    conn = get_db_connection()
-    teams = conn.execute('SELECT * FROM team').fetchall()
-    favoris = conn.execute('SELECT * FROM favoris').fetchall()
-    conn.close()
-    #Football API request
-    match = requests.request("GET", url, headers=headers).json()
-    return render_template('home.html', teams=teams, favoris=favoris, match=match)
-
-@app.route('/team')
-def team():
-    conn = get_db_connection()
-    teams = conn.execute('SELECT * FROM team').fetchall()
-    favoris = conn.execute('SELECT * FROM favoris').fetchall()
-    conn.close()
-    #Football API request
-    match = requests.request("GET", url, headers=headers).json()
-    return render_template('team.html', teams=teams, favoris=favoris, match=match)
+    #Check if user is authenticated
+    if current_user.is_authenticated:
+        conn = get_db_connection()
+        tournaments = conn.execute('SELECT * FROM tournaments').fetchall()
+        favoris = conn.execute('SELECT * FROM favoris').fetchall()
+        conn.close()
+        #Football API request
+        match = requests.request("GET", url, headers=headers).json()
+        return render_template('home.html', tournaments=tournaments, favoris=favoris, match=match)
+    else: 
+        return redirect(url_for('index'))
 
 @app.route('/tournaments')
 def tournaments():
@@ -127,6 +126,7 @@ def tournament():
     tournament_result = requests.request("GET", url4, headers=headers, params=querystring).json()
     return render_template('tournament.html', tournament=tournament_result, tournament_name=tournament)
 
+#route for live
 @app.route('/live')
 def live():
     live = requests.request("GET", url2, headers=headers).json()
