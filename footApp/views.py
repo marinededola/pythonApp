@@ -55,9 +55,6 @@ def get_db_connection():
 
 #Route for index
 @app.route('/', methods=['GET', 'POST'])
-def search():
-    tournaments = requests.request("GET", url3, headers=headers).json()
-    return tournaments
 
 @app.route('/index', methods=['GET', 'POST'])
 def index():
@@ -105,10 +102,11 @@ def register():
 def home():
     #Check if user is authenticated
     if current_user.is_authenticated:
-        #Football API request
+        #Football API requests
+        tournaments = requests.request("GET", url3, headers=headers).json()
         match = requests.request("GET", url, headers=headers).json()
         favorites = Favoris.query.filter_by(user_id = current_user.id)
-        return render_template('home.html', match=match, favorites=favorites)
+        return render_template('home.html', match=match, favorites=favorites, tournaments=tournaments)
     else: 
         return redirect(url_for('index'))
 
@@ -122,8 +120,9 @@ def tournaments():
 def tournament():
     tournament = request.args.get('name')
     querystring = {"tournament_name":tournament}
+    tournaments = requests.request("GET", url3, headers=headers).json()
     tournament_result = requests.request("GET", url4, headers=headers, params=querystring).json()
-    return render_template('tournament.html', tournament=tournament_result, tournament_name=tournament)
+    return render_template('tournament.html', tournament=tournament_result, tournament_name=tournament, tournaments=tournaments)
 
 @app.route('/add_favorites')
 def add_favorites():
@@ -138,8 +137,9 @@ def add_favorites():
 #route for live
 @app.route('/live')
 def live():
+    tournaments = requests.request("GET", url3, headers=headers).json()
     live = requests.request("GET", url2, headers=headers).json()
-    return render_template('live.html', live=live)
+    return render_template('live.html', live=live, tournaments=tournaments)
 
 app.config.from_object('config')
 

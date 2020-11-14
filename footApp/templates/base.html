@@ -34,7 +34,7 @@
                 </a>     
                 <ul class="dropdown-menu scrollable-menu" role="menu">
                     {% for tournament in tournaments %}
-                    <li><a class="items" href="#">{{tournament.league}}</a></li>
+                    <li><a class="items" href="/tournament/?name={{tournament.league}}">{{tournament.league}}</a></li>
                     {% endfor %}
                 </ul>
             </div>
