@@ -9,9 +9,9 @@ class LoginForm(FlaskForm):
     password = PasswordField('Mot de passe', validators=[InputRequired('Un mot de passe est requis'), Length(min=6, max=32, message='Le mot de passe doit être entre 6 et 32 caractères.')])
 
 class RegisterForm(FlaskForm):
-    username = StringField('Pseudo', validators=[InputRequired(), Length(min=4, max=25)])
-    password = PasswordField('Mot de passe', validators=[InputRequired(), Length(min=6, max=32)])
-    confirm_password = PasswordField('Confirmation de votre mot de passe', validators=[DataRequired(), EqualTo('password')])
+    username = StringField('Pseudo', validators=[InputRequired(), Length(min=4, max=25, message='Le pseudo doit être entre 4 et 25 caractères.')])
+    password = PasswordField('Mot de passe', validators=[InputRequired(), Length(min=6, max=32, message='Le mot de passe doit être entre 6 et 32 caractères.')])
+    confirm_password = PasswordField('Confirmation mot de passe', validators=[DataRequired(), EqualTo('password', message='Le mot de passe est différent.')])
 
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()

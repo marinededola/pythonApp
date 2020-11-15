@@ -54,10 +54,15 @@ nav a:hover{
 #formIndex{
     min-width: 400px;
     margin: auto;
-    background-color: #AC3931;
+    background-color: #307351;
     opacity: 0.8;
     color: #ffffff;
     border: 5px solid #ffffff;
+}
+
+#formIndex a{
+    text-decoration: none;
+    color: #fff;
 }
 
 #formIndex button{
@@ -118,9 +123,8 @@ nav a:hover{
 } 
 
 .resultTour{
-    height: 23vh;
+    height: 50vh;
     overflow-x: hidden;
-
     overflow-y: scroll;
     font-size: 15px;
 }

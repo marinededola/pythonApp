@@ -27,7 +27,7 @@
                 <div class="card favoris">
                     <div class="card-body list">
                         {% for favorite in favorites %}
-                            <a href="/tournament/?name={{ favorite.name }}">{{ favorite.name }} {{ current_user.id}} </a>
+                            <a href="/tournament/?name={{ favorite.name }}">{{ favorite.name }}</a>
                             <br>
                             <br>
                         {% endfor %}

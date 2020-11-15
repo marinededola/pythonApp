@@ -4,20 +4,30 @@
 <div class="row" id="contentIndex">
     <div class="card" id="formIndex">
         <div class="card-body">
+            <h5 class="card-title text-center mb-5">Connexion</h5>
             <form action="" method="POST" novalidate>
                 {{ loginForm.csrf_token }}
                 <div class="form-group">
-                    {{ render_field(loginForm.username) }}
+                    {{ render_field(loginForm.username, class="form-control") }}
                 </div>
                 <div class="form-group">
-                    {{ render_field(loginForm.password) }}
+                    {{ render_field(loginForm.password, class="form-control") }}
                 </div>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul class=flashes>
+                        {% for message in messages %}
+                        <li style="list-style: none; color: #FBFFB9"><i>{{ message }}</i></li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary text-center">Connexion</button>
+                    <button type="submit" class="btn btn-success text-center">Connexion</button>
                 </div>
             </form>
-            <div class="text-center text-white">
-                </button><a href="{{ url_for('register') }}"><button type="button" class="btn btn-secondary">S'inscrire</a></button>
+            <div class="text-center">
+                </button><a href="{{ url_for('register') }}"><button type="button" class="btn btn-info">S'inscrire</a></button>
             </div>
         </div>
     </div>

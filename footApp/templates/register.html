@@ -4,19 +4,24 @@
 <div class="row" id="contentIndex">
     <div class="card" id="formIndex">
         <div class="card-body">
-            <h5 class="card-title">S'inscrire</h5>
+            <h5 class="card-title text-center mb-5">S'inscrire</h5>
             <form action="{{url_for('register')}}" method="POST">
                 {{ registerForm.csrf_token }}
                 <div class="form-group">
-                    {{ render_field(registerForm.username) }}
+                    {{ render_field(registerForm.username, class="form-control") }}
                 </div>
                 <div class="form-group">
-                    {{ render_field(registerForm.password) }}
+                    {{ render_field(registerForm.password, class="form-control") }}
                 </div>
                 <div class="form-group">
-                    {{ render_field(registerForm.confirm_password) }}
+                    {{ render_field(registerForm.confirm_password, class="form-control") }}
                 </div>
-                <button type="submit" class="btn btn-primary">Inscription</button>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-info">Inscription</button>
+                </div>
+                <div class="text-center">
+                    </button><a href="{{ url_for('index') }}"><button type="button" class="btn btn-success">Se connecter</a></button>
+                </div>
             </form>
         </div>
     </div>

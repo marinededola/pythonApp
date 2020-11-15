@@ -66,7 +66,7 @@ def index():
         user = User.query.filter_by(username=loginForm.username.data).first()
         #check if user is on database and check password
         if user is None or not user.check_password(loginForm.password.data):
-            flash('Invalid username or password')
+            flash('Pseudo ou mot de passe incorrecte !')
             return redirect(url_for('index'))
         login_user(user)
         return redirect(url_for('home'))
