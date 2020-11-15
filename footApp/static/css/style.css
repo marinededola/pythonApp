@@ -11,10 +11,21 @@ body{
     background-image: url(../img/background-football.jpg);
     background-repeat: no-repeat;
     background-size: cover;
+    font-family: 'Mukta', sans-serif;
+}
+::-webkit-scrollbar {
+    height: 10px;
+    width: 12px;
+    background: white;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #307351;
+    -webkit-border-radius: 1ex;
 }
 
 nav{
-    background-color: #AC3931;
+    background-color: #99C2A2;
 }
 
 nav li{
@@ -23,7 +34,11 @@ nav li{
 }
 
 nav a{
-    color: #D9E76C;
+    color: #FBFFB9;
+}
+
+nav a:hover{
+    color: #307351;
 }
 
 .navbar-brand{
@@ -58,31 +73,65 @@ nav a{
 }
 
 .items{
-    font-size: 16px;
-    color: darkblue;
+    font-size: 14px;
+    color:#307351;
 }
 
 .container{
+    color: #307351;
+}
+
+.container h1{
+    color: #FBFFB9;
+}
+
+.btnsearch{
+    background-color: #307351;
+    color: #FBFFB9;
+}
+.page{
     margin-top: 100px;
-    color: #D9E76C;
+}
+.home{
+    margin-top: 25px;
 }
 .row{
-    background-color: #537D8D;
-    opacity: 0.9;
+    background-color: #99C2A2;
+    opacity: 0.8;
     padding: 20px;
     border-radius: 10px 10px 10px 10px;
     height: 70vh;
 }
 
+.card-body a {
+    color: #307351;
+}
+
+.list a {
+    color: #307351;
+}
+
+.list a:hover {
+    color: #307351;
+    text-decoration: none;
+    font-weight: bold;
+} 
+
 .resultTour{
-    height: 17vh;
+    height: 23vh;
     overflow-x: hidden;
 
     overflow-y: scroll;
     font-size: 15px;
-
 }
 
+.favoris{
+    height: 50vh;
+    overflow-x: hidden;
+
+    overflow-y: scroll;
+    font-size: 15px;
+}
 .result{
     height: 20vh;
     overflow-x: hidden;

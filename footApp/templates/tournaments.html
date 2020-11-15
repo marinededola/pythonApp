@@ -2,16 +2,15 @@
 
 {% block content %}
 <!--Home content-->
-<div class="container">
+<div class="container page">
 
     
     <div class="row">
         <div class="col-md-12">
             <div id="favoriteTeam">
                 <h3>Tournois Favoris</h3>
-                <img src="" alt="team-logo">
                 <div class="accordion resultTour" id="accordionFavoriteTeam">
-                    <div class="card">
+                    <div class="card favoris">
                         <div class="card-header" id="headingFavoriteTwo">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseFavoriteTwo" aria-expanded="false" aria-controls="collapseHFavoriteTwo">
@@ -29,12 +28,11 @@
             </div>
             <div id="followTeam">
                 <h3>Tous les tournois</h3>
-                <img src="" alt="team-logo">
                 <div class="accordion resultTour" id="accordionFollowTeam">
                     {% for tournament in tournaments %}
-                    <div class="card">
+                    <div class="card ">
                         <div class="card-header" id="headingFollowTwo">
-                        <h2 class="mb-0">
+                        <h2 class="mb-0 list">
                             <a href="/tournament/?name={{tournament.league}}" class="btn btn-link btn-block text-left collapsed" role="button" >
                                 {{ tournament.league }}
                             </a>
