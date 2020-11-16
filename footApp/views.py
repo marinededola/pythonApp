@@ -109,14 +109,17 @@ def home():
     else: 
         return redirect(url_for('index'))
 
+#route for tournaments
 @app.route('/tournaments')
 def tournaments():
     tournaments = requests.request("GET", url3, headers=headers).json()
     #Football API request
     return render_template('tournaments.html', tournaments=tournaments)
 
+#route for tournament
 @app.route('/tournament/')
 def tournament():
+    #Pick the tournament name
     tournament = request.args.get('name')
     querystring = {"tournament_name":tournament}
     tournaments = requests.request("GET", url3, headers=headers).json()
