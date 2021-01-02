@@ -134,8 +134,9 @@ def tournament():
 @app.route('/add_favorites')
 def add_favorites():
     tournament_name = request.args.get('name')
-    name = Favoris.query.filter_by(name=tournament_name).first()
-    # Verify whether tournament_name already exists in db
+    name = Favoris.query.filter_by(
+        user_id=current_user.id, name=tournament_name).first()
+    # Verify whether tournament_name already exists in db for current user
     if name is None:
         favorite = Favoris(user_id=current_user.id, name=tournament_name)
         # Add to database
