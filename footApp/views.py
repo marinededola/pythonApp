@@ -9,22 +9,9 @@ from . import app, db
 from .forms import LoginForm, RegisterForm
 from .models import User, Favoris
 
-# Pick the current date
-date = datetime.now()
 
-date2 = datetime.now() - timedelta(6)
-# Adjust the date's format to the API
-if len(str(date.day)) < 2:
-    dateDay = "0" + str(date.day)
-else:
-    dateDay = str(date.day)
-jourUrl = str(date.year) + "-" + str(date.month) + "-" + dateDay
-
-if len(str(date2.day)) < 2:
-    dateDay2 = "0" + str(date2.day)
-else:
-    dateDay2 = str(date2.day)
-jourUrl2 = str(date2.year) + "-" + str(date2.month) + "-" + dateDay2
+jourUrl = datetime.now().strftime('%Y-%m-%d')
+jourUrl2 = (datetime.now() - timedelta(6)).strftime('%Y-%m-%d')
 
 # Initialize the football API's URL
 url = (
